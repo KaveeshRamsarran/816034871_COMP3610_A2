@@ -1,0 +1,33 @@
+# COMP3610 Assignment 2: ML Model Training & Evaluation
+# Python Dependencies
+
+# Data Manipulation & Analysis
+pandas
+numpy
+
+# Data Visualization
+matplotlib
+seaborn
+
+# Machine Learning
+scikit-learn
+
+# Deep Learning
+torch
+
+# Data Retrieval
+pyarrow
+requests
+
+# Jupyter Notebook
+notebook
+ipykernel
+
+# Model Interpretation (Optional - for SHAP bonus)
+shap
+
+# Progress Bars
+tqdm
+
+# Statistical Analysis
+scipy
