@@ -88,3 +88,6 @@ taxi_zone_lookup.csv
 # Cached Data
 .cache/
 cache/
+
+# Saved Plot Images
+*.png
