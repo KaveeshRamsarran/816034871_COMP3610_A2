@@ -55,7 +55,7 @@ Data files should be downloaded and placed in a `data/` directory (not included 
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/816034871_COMP3610_A2.git
+   git clone https://github.com/KaveeshRamsarran/816034871_COMP3610_A2.git
    cd 816034871_COMP3610_A2
    ```
 
