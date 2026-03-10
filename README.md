@@ -1,6 +1,7 @@
 # COMP3610 Assignment 2: ML Model Training & Evaluation
 
 ## Author Information
+- **Name:** Kaveesh Ramsarran
 - **Student ID:** 816034871
 - **Course:** COMP 3610 - Big Data Analytics
 - **Institution:** The University of the West Indies
@@ -8,13 +9,14 @@
 
 ## Project Overview
 
-This assignment builds, evaluates, and interprets machine learning models to predict taxi trip tip amounts using the NYC Yellow Taxi Trip dataset. The project demonstrates:
+This assignment builds, evaluates, and interprets machine learning models to predict taxi trip tip amounts using the NYC Yellow Taxi Trip dataset (January 2024). The project demonstrates:
 
 - Feature engineering and data preprocessing for ML pipelines
-- Classification and regression model training using Scikit-learn
-- Neural network implementation using PyTorch
-- Model evaluation using appropriate metrics and cross-validation
-- Model interpretation and communication of findings
+- Regression and classification model training using Scikit-learn
+- Neural network implementation using PyTorch (binary classification)
+- Hyperparameter tuning with RandomizedSearchCV
+- Model evaluation using appropriate metrics
+- Model interpretation via feature importance, coefficient analysis, and SHAP values
 
 ## Prediction Tasks
 
@@ -23,13 +25,9 @@ This assignment builds, evaluates, and interprets machine learning models to pre
 
 ## Dataset
 
-The project uses NYC Yellow Taxi Trip Records dataset. Since `tip_amount` is only reliably recorded for credit card payments (`payment_type = 1`), the dataset is filtered to include only credit card transactions.
+The project uses NYC Yellow Taxi Trip Records (January 2024). Since `tip_amount` is only reliably recorded for credit card payments (`payment_type = 1`), the dataset is filtered to include only credit card transactions (~2.27M records after cleaning).
 
-### Required Data Files
-- NYC Yellow Taxi Trip Records (Parquet format)
-- Taxi Zone Lookup Table (CSV format)
-
-Data files should be downloaded and placed in a `data/` directory (not included in repository).
+Data is downloaded automatically within the notebook from the NYC TLC website -- no manual download is required.
 
 ## Project Structure
 
@@ -38,10 +36,7 @@ Data files should be downloaded and placed in a `data/` directory (not included 
 ├── assignment2.ipynb      # Main Jupyter notebook with all analysis
 ├── requirements.txt       # Python dependencies with versions
 ├── README.md              # This file
-├── .gitignore             # Git ignore rules
-└── data/                  # Data directory (not tracked)
-    ├── yellow_tripdata_*.parquet
-    └── taxi_zone_lookup.csv
+└── .gitignore             # Git ignore rules
 ```
 
 ## Setup Instructions
@@ -49,7 +44,7 @@ Data files should be downloaded and placed in a `data/` directory (not included 
 ### Prerequisites
 - Python 3.10 or higher
 - pip package manager
-- Jupyter Notebook or Google Colab
+- Jupyter Notebook or VS Code with Jupyter extension
 
 ### Installation
 
@@ -61,13 +56,13 @@ Data files should be downloaded and placed in a `data/` directory (not included 
 
 2. **Create a virtual environment (recommended):**
    ```bash
-   python -m venv venv
+   python -m venv .venv
    
    # On Windows:
-   venv\Scripts\activate
+   .venv\Scripts\activate
    
    # On macOS/Linux:
-   source venv/bin/activate
+   source .venv/bin/activate
    ```
 
 3. **Install dependencies:**
@@ -75,22 +70,18 @@ Data files should be downloaded and placed in a `data/` directory (not included 
    pip install -r requirements.txt
    ```
 
-4. **Download the dataset:**
-   - Download NYC Yellow Taxi Trip Records from [NYC TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
-   - Download Taxi Zone Lookup Table from the same source
-   - Place files in the `data/` directory
-
 ### Running the Notebook
 
-**Option 1: Local Jupyter Notebook**
+**Option 1: VS Code**
+1. Open the folder in VS Code
+2. Open `assignment2.ipynb`
+3. Select the `.venv` Python interpreter
+4. Run all cells
+
+**Option 2: Jupyter Notebook**
 ```bash
 jupyter notebook assignment2.ipynb
 ```
-
-**Option 2: Google Colab**
-1. Upload `assignment2.ipynb` to Google Colab
-2. Upload data files to Colab session or mount Google Drive
-3. Run all cells
 
 ## Assignment Components
 
@@ -103,18 +94,24 @@ jupyter notebook assignment2.ipynb
 - Data splitting and scaling (70/15/15 train/val/test)
 
 ### Part 2: Model Training & Tuning (30 marks)
-- Baseline models (Linear Regression, Random Forest, Logistic Regression)
-- Hyperparameter tuning with RandomizedSearchCV
-- Neural network implementation with PyTorch
+- Baseline models (Linear Regression, Random Forest Regressor, Logistic Regression, Random Forest Classifier)
+- Hyperparameter tuning with RandomizedSearchCV (n_iter=20, cv=5)
+- Neural network implementation with PyTorch (BCEWithLogitsLoss, 20 epochs)
 
 ### Part 3: Model Evaluation & Interpretation (35 marks)
 - Comprehensive evaluation on test set
-- ROC curves and confusion matrices
-- Feature importance analysis
+- ROC curves for all classification models
+- Confusion matrix for best classifier
+- Predicted vs actual scatter plot and residuals vs predicted plot
+- Residual distribution histogram and residuals vs predicted analysis
+- Training and validation loss curves (neural network)
+- Feature importance bar chart (Random Forest)
+- Linear and Logistic Regression coefficient tables
+- SHAP values for individual trip explanations (bonus)
 - Written analysis and insights
 
 ### Part 4: Documentation & Code Quality (10 marks)
-- Well-structured notebook with markdown explanations
+- Well-structured notebook with markdown explanations and observations
 - Clean, readable code with meaningful variable names
 - Repository organization with required files
 
@@ -123,14 +120,13 @@ jupyter notebook assignment2.ipynb
 ### Regression Models
 - Linear Regression (baseline)
 - Random Forest Regressor (baseline)
-- Tuned Random Forest Regressor
-- PyTorch Neural Network
+- Tuned Random Forest Regressor (RandomizedSearchCV)
 
 ### Classification Models
 - Logistic Regression (baseline)
 - Random Forest Classifier (baseline)
-- Tuned Random Forest Classifier
-- PyTorch Neural Network
+- Tuned Random Forest Classifier (RandomizedSearchCV)
+- PyTorch Neural Network (HighTipNN: 128-64-1, Dropout 0.3)
 
 ## Evaluation Metrics
 
@@ -153,12 +149,14 @@ jupyter notebook assignment2.ipynb
 ## Dependencies
 
 See `requirements.txt` for complete list. Key packages include:
-- pandas 2.2.0
-- numpy 1.26.3
-- scikit-learn 1.4.0
-- torch 2.2.0
-- matplotlib 3.8.2
+- pandas 3.0.1
+- numpy 2.4.2
+- scikit-learn 1.8.0
+- torch 2.10.0
+- matplotlib 3.10.8
 - seaborn 0.13.2
+- shap 0.51.0
+- scipy 1.17.1
 
 ## License
 
